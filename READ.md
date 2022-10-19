@@ -4,3 +4,8 @@ second is not ready for run
 target made simple create, read, update database with sqlite SQLAlchemy and Flask - some problem with adress to the index.html or with him
 
 need to try it in kids steps another time
+
+need to run in terminal:
+pip install Flask Flask-SQLAlchemy
+
+flask --app main run
