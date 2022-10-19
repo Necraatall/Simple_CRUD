@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -41,3 +42,16 @@ def view_index():
     if request.method == "POST":
         create_note(request.form['text'])
     return render_template("index.html", notes=read_notes())
+
+@app.route("/edit/<note_id>", methods = ["POST", "GET"])
+def edit_note(note_id):
+    if request.method == "POST":
+        update_note(note_id, text=request.form['text'], done=request.form['done'])
+    elif request.method == "GET":
+        delete_note(note_id)
+    return redirect("/", code=302)
+
+if __name__ == "__main__":
+    db.create_all()
+    app.run(debug=True)
+
