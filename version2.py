@@ -1,5 +1,7 @@
+from random import random
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
+import uuid
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
@@ -14,7 +16,7 @@ class students(db.Model):
    addr = db.Column(db.String(200)) 
    pin = db.Column(db.String(10))
 
-def __init__(self, name, city, addr,pin):
+def __init__(self, name, city, addr, pin):
    self.name = name
    self.city = city
    self.addr = addr
@@ -30,15 +32,18 @@ def new():
       if not request.form['name'] or not request.form['city'] or not request.form['addr']:
          flash('Please enter all the fields', 'error')
       else:
-         student = students(request.form['name'], request.form['city'],
-            request.form['addr'], request.form['pin'])
-         
-         db.session.add(student)
-         db.session.commit()
-         flash('Record was successfully added')
-         return redirect(url_for('show_all'))
+         session = db.session()
+         student = students(name=request.form['name'], city=request.form['city'], addr=request.form['addr'], pin = request.form['pin'])
+         try:
+            session.add(student)
+            session.commit()
+            flash('Record was successfully added')            
+            return redirect(url_for('show_all'))
+         finally:
+            session.close()
    return render_template('new.html')
 
-# if __name__ == '__main__':
-#    db.create_all()
-#    app.run(debug = True)
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)

@@ -1,11 +1,18 @@
-This not work - 2 tryes one is main - not finding index.html
-second is not ready for run
+First version works successfully - needed files and folders:
+main.py
+>templates
+    index.html
+Second version works good tooo - simple function not tested much
+version2.py
+>templates
+    new.html
+    show_all.html
 
-target made simple create, read, update database with sqlite SQLAlchemy and Flask - some problem with adress to the index.html or with him
 
-need to try it in kids steps another time
 
 need to run in terminal:
 pip install Flask Flask-SQLAlchemy
 
 flask --app main run
+
+or better in vscode with F5 on name of the files - main.py or version2.py
